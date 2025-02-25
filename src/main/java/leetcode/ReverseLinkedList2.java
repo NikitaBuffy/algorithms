@@ -1,5 +1,7 @@
 package leetcode;
 
+import util.ListNode;
+
 /**
  * LeetCode #92
  */
@@ -34,29 +36,6 @@ public class ReverseLinkedList2 {
             }
 
             return dummy.next;
-        }
-    }
-
-    static class ListNode {
-        ListNode(int val) {
-            this.val = val;
-        }
-
-        ListNode(int val, ListNode next) {
-            this.val = val;
-            this.next = next;
-        }
-
-
-        int val;
-        ListNode next;
-
-        @Override
-        public String toString() {
-            return "ListNode{" +
-                    "val=" + val +
-                    ", next=" + next +
-                    '}';
         }
     }
 }
