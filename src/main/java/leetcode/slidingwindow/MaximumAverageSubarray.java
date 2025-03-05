@@ -1,4 +1,4 @@
-package leetcode;
+package leetcode.slidingwindow;
 
 /**
  * LeetCode #643
