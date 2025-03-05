@@ -1,4 +1,4 @@
-package leetcode;
+package leetcode.slidingwindow;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -8,8 +8,8 @@ import java.util.Set;
  */
 public class LongestSubstringWithoutRepeating {
     public static void main(String[] args) {
-        int case1 = Solution.lengthOfLongestSubstring("abcabcbb");
-        int case2 = Solution.lengthOfLongestSubstring("bbbbb");
+        int case1 = Solution.lengthOfLongestSubstring2("abcabcbb");
+        int case2 = Solution.lengthOfLongestSubstring2("bbbbb");
         System.out.println(case1);
         System.out.println(case2);
     }
@@ -37,6 +37,22 @@ public class LongestSubstringWithoutRepeating {
             }
 
             return maxLen;
+        }
+
+        public static int lengthOfLongestSubstring2(String s) {
+            Set<Character> window = new HashSet<>();
+            int maxLength = 0, left = 0;
+
+            for (int right = 0; right < s.length(); right++) {
+                while (window.contains(s.charAt(right))) {
+                    window.remove(s.charAt(left));
+                    left++;
+                }
+                window.add(s.charAt(right));
+                maxLength = Math.max(maxLength, right - left + 1);
+            }
+
+            return maxLength;
         }
     }
 }
