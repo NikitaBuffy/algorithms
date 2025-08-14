@@ -2,6 +2,8 @@ package leetcode;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * LeetCode #1
@@ -10,15 +12,17 @@ public class TwoSum {
     public static void main(String[] args) {
         System.out.println(Arrays.equals(
                 new int[]{0, 1},
-                Solution.twoSum(new int[]{2, 7, 11, 15}, 9)
+                Solution.twoSumHashTable(new int[]{2, 7, 11, 15}, 9)
         ));
         System.out.println(Arrays.equals(
                 new int[]{1, 2},
-                Solution.twoSum(new int[]{3, 2, 4}, 6)
+                Solution.twoSumHashTable(new int[]{3, 2, 4}, 6)
         ));
     }
 
     static class Solution {
+
+        // O(n log n)
         public static int[] twoSum(int[] nums, int target) {
             int[][] arr = new int[nums.length][2];
 
@@ -40,6 +44,24 @@ public class TwoSum {
                 } else {
                     right -=1;
                 }
+            }
+
+            return new int[0];
+        }
+
+        // O(n)
+        public static int[] twoSumHashTable(int[] nums, int target) {
+            Map<Integer, Integer> table = new HashMap<>();
+
+            for (int i = 0; i < nums.length; i++) {
+                int needed = target - nums[i];
+
+                Integer get = table.get(needed);
+                if (get != null) {
+                    return new int[]{get, i};
+                }
+
+                table.put(nums[i], i);
             }
 
             return new int[0];
