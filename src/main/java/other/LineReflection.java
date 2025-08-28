@@ -42,6 +42,38 @@ public class LineReflection {
         return true;
     }
 
+    static boolean isSymmetricStrict(List<List<Integer>> points) {
+        int minX = points.get(0).get(0);
+        int maxX = points.get(0).get(0);
+
+        for (List<Integer> point : points) {
+            minX = Math.min(minX, point.get(0));
+            maxX = Math.max(maxX, point.get(0));
+        }
+
+        Map<String, Integer> map = new HashMap<>();
+        for (List<Integer> point : points) {
+            String key = point.get(0) + "," + point.get(1);
+            map.put(key, map.getOrDefault(key, 0) + 1);
+        }
+
+        for (List<Integer> point : points) {
+            int symX = maxX + minX - point.get(0);
+            String keyOrig = point.get(0) + "," + point.get(1);
+            String keySym = symX + "," + point.get(1);
+
+            if (!map.containsKey(keySym)) {
+                return false;
+            }
+
+            if (!map.get(keySym).equals(map.get(keyOrig))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     static class Point {
         int x, y;
 
