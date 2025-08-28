@@ -10,8 +10,8 @@ import java.util.Map;
  */
 public class FindAnagrams {
     public static void main(String[] args) {
-        System.out.println(Solution.findAnagrams("cbaebabacd", "abc"));
-        System.out.println(Solution.findAnagrams("abab", "ab"));
+        System.out.println(Solution.findAnagrams2("cbaebabacd", "abc"));
+        System.out.println(Solution.findAnagrams2("abab", "ab"));
     }
 
     static class Solution {
@@ -22,10 +22,8 @@ public class FindAnagrams {
 
             if (s.length() < p.length()) return result;
 
-            char[] pChar = p.toCharArray();
-
-            for (int i = 0; i < pChar.length; i++) {
-                pMap.put(pChar[i], pMap.getOrDefault(pChar[i], 0) + 1);
+            for (char value : p.toCharArray()) {
+                pMap.put(value, pMap.getOrDefault(value, 0) + 1);
             }
 
             int l = 0, r = 0;
@@ -52,6 +50,62 @@ public class FindAnagrams {
             }
 
             return result;
+        }
+
+        // O(N) time & O(min(m,k)) memory
+        public static List<Integer> findAnagrams2(String s, String t) {
+            List<Integer> res = new ArrayList<>();
+            if (t.length() > s.length()) {
+                return res;
+            }
+
+            // Словарь разницы символов между текущим окном и t
+            Map<Character, Integer> diff = new HashMap<>();
+            for (char ch : t.toCharArray()) {
+                diff.put(ch, diff.getOrDefault(ch, 0) + 1);
+            }
+
+            int l = 0;
+            int r = 0;
+
+            // Заполняем начальное окно длины len(t)
+            while (r < t.length()) {
+                char current = s.charAt(r);
+                diff.put(current, diff.getOrDefault(current, 0) - 1);
+                if (diff.get(current) == 0) {
+                    diff.remove(current);
+                }
+                r++;
+            }
+
+            if (diff.isEmpty()) {
+                res.add(0);
+            }
+
+            // Двигаем окно по строке s
+            while (r < s.length()) {
+                // Убираем символ слева
+                char leftChar = s.charAt(l);
+                diff.put(leftChar, diff.getOrDefault(leftChar, 0) + 1);
+                if (diff.get(leftChar) == 0) {
+                    diff.remove(leftChar);
+                }
+                l++;
+
+                // Добавляем символ справа
+                char rightChar = s.charAt(r);
+                diff.put(rightChar, diff.getOrDefault(rightChar, 0) - 1);
+                if (diff.get(rightChar) == 0) {
+                    diff.remove(rightChar);
+                }
+                r++;
+
+                // Если все символы совпали — фиксируем позицию
+                if (diff.isEmpty()) {
+                    res.add(l);
+                }
+            }
+            return res;
         }
     }
 }
