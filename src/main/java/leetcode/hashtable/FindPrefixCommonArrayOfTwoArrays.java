@@ -1,6 +1,6 @@
 package leetcode.hashtable;
 
-import java.util.Arrays;
+import java.util.*;
 
 /**
  * LeetCode #2657
@@ -38,6 +38,32 @@ public class FindPrefixCommonArrayOfTwoArrays {
             result[i] = common;
         }
 
+        return result;
+    }
+
+    // Без учета кратности
+    public List<Integer> findCommonPrefix(List<Integer> nums1, List<Integer> nums2) {
+        Set<Integer> used1 = new HashSet<>();
+        Set<Integer> used2 = new HashSet<>();
+        int commonCount = 0;
+        List<Integer> result = new ArrayList<>();
+
+        for (int i = 0; i < nums1.size(); i++) {
+            if (!used1.contains(nums1.get(i))) {
+                used1.add(nums1.get(i));
+                if (used2.contains(nums1.get(i))) {
+                    commonCount++;
+                }
+            }
+
+            if (!used2.contains(nums2.get(i))) {
+                used2.add(nums2.get(i));
+                if (used1.contains(nums2.get(i))) {
+                    commonCount++;
+                }
+            }
+            result.add(commonCount);
+        }
         return result;
     }
 }
